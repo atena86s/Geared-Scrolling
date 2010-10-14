@@ -13,7 +13,7 @@
  * @name     jquery.heyday.gearedscrolling
  * @version  0.1
  * @author   James Goodman (james [at] heyday [dot] co [dot] nz)
- * @requires jQuery, jquery.heyday.clamp.js
+ * @requires jQuery
  *
  */
 
@@ -167,14 +167,15 @@
 
 				tallOffset = scrollTop - priv.columnTopOffset;
 
-				columnScrollTop = $.clamp(tallOffset, priv.minScrollTop, priv.maxScrollTop);
+				columnScrollTop = Math.max(tallOffset, priv.minScrollTop);
+				columnScrollTop = Math.min(columnScrollTop, priv.maxScrollTop);
 
 				priv.shortColumns.each(function () {
 					var top;
 
 					top = columnScrollTop * ((priv.maxHeight - $(this).height()) / (priv.documentHeight - (priv.windowHeight + priv.columnTopOffset)));
 
-                    $(this).css('top', Math.round(top));
+					$(this).css('top', Math.round(top));
                     
 				});
 			});
@@ -214,6 +215,7 @@
 				}, 1000);
 			}
 		};
+
 
 		priv.init(columnHolder, options);
 
