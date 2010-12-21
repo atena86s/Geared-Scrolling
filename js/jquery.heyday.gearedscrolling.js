@@ -17,11 +17,11 @@
  *
  */
 
-/*global jQuery, window */
-
-"use strict";
+/*global jQuery, window, document */
 
 (function ($) {
+	
+	"use strict";
 
 	function GearedScrolling(columnHolder, options) {
 		var publ = {}, priv = {};
