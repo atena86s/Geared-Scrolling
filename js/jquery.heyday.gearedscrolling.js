@@ -258,9 +258,8 @@
 			if (priv.active) {
 				priv.active = false;
 				priv.removeEventHandlers();
-				priv.shortColumns.animate({
-					top: priv.columnTopOffset
-				}, 1000);
+				priv.shortColumns.removeClass('fixed').addClass('static');
+				priv.tallColumn.addClass('static');
 			}
 		};
 

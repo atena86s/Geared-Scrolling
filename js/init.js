@@ -2,11 +2,10 @@
 
 "use strict";
 
+var syncColumn;
+
 (function ($) {
 	$(window).load(function () {
-	
-		var syncColumn;
 		syncColumn = $('.columnHolder').gearedscrolling();
-
 	});
 }(jQuery));
