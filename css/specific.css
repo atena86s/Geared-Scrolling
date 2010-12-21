@@ -1,5 +1,6 @@
 html, body {
 	background-color: #F8F6EE;
+	margin: 0;
 }
 
 #Header h1 {
@@ -11,6 +12,7 @@ html, body {
 #Container {
 	width: 960px;
 	padding: 0 0 150px 0;
+	margin: 0 auto;
 }
 
 img {
@@ -23,7 +25,6 @@ img {
 }
 
 .columnHolder .short {
-	position: absolute;
 	top: 0;
 }
 
@@ -52,6 +53,17 @@ img {
 
 .tall3 .columnThree {
 	margin-left: 750px;
+}
+
+.columnHolder .static {
+	float: left;
+	position: static;
+	margin: 0;
+}
+
+.fixed {
+	float: none;
+	position: fixed;
 }
 
 .column {

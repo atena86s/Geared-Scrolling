@@ -28,12 +28,14 @@
 
 
 		priv.defaults = {
-			columnSelector: '.column',
-			shortColumnClass: 'short',
+			columnSelector:      '.column',
+			shortColumnClass:    'short',
 			shortColumnSelector: '.short',
-			tallColumnClass: 'tall',
-			tallColumnSelector: '.tall',
-			tallMarkerClass: 'tall'
+			tallColumnClass:     'tall',
+			tallColumnSelector:  '.tall',
+			tallMarkerClass:     'tall',
+			staticClass:         'static',
+			fixedClass:          'fixed'
 		};
 
 
@@ -121,11 +123,15 @@
 				columnHeight = column.outerHeight();
 
 				if (columnHeight < priv.maxHeight) {
+					column.data('initialLeft', column.offset().left);
+					column.css('left', column.data('initialLeft'));
 					column.addClass(priv.settings.shortColumnClass);
+					column.addClass(priv.settings.staticClass);
 				}
 
 				if (columnHeight === priv.maxHeight) {
 					column.addClass(priv.settings.tallColumnClass);
+					column.addClass(priv.settings.staticClass);
 				}
 			});
 		};
@@ -170,13 +176,28 @@
 				columnScrollTop = Math.max(tallOffset, priv.minScrollTop);
 				columnScrollTop = Math.min(columnScrollTop, priv.maxScrollTop);
 
+				if (scrollTop <= priv.columnTopOffset) {
+					priv.tallColumn.addClass(priv.settings.staticClass);
+					priv.shortColumns.removeClass(priv.settings.fixedClass).addClass(priv.settings.staticClass);
+					return;
+				}
+
+				priv.tallColumn.removeClass(priv.settings.staticClass);
+				priv.shortColumns.removeClass(priv.settings.staticClass).addClass(priv.settings.fixedClass);
+
 				priv.shortColumns.each(function () {
-					var top;
+					var top, fixedTop, column;
 
-					top = columnScrollTop * ((priv.maxHeight - $(this).height()) / (priv.documentHeight - (priv.windowHeight + priv.columnTopOffset)));
+					column = $(this);
 
-					$(this).css('top', Math.round(top));
-                    
+					top = columnScrollTop * ((priv.maxHeight - column.height()) / (priv.documentHeight - (priv.windowHeight + priv.columnTopOffset)));
+
+					fixedTop = top - scrollTop + priv.columnTopOffset;
+
+					column.css({
+						left: column.data('initialLeft'),
+						top: Math.round(fixedTop)
+					});
 				});
 			});
 		};
@@ -186,7 +207,34 @@
 			$(window).bind('resize.synccol', function () {
 				priv.storePageHeights();
 				priv.calculateMinMaxScrollTop();
+				priv.recalculateLefts();
 				$(window).trigger('scroll.synccol');
+			});
+		};
+
+
+		priv.recalculateLefts = function () {
+			priv.shortColumns.each(function () {
+				var column, wasFixed;
+
+				column = $(this);
+				wasFixed = false;
+
+				if (column.hasClass(priv.settings.fixedClass)) {
+					wasFixed = true;
+					column.removeClass(priv.settings.fixedClass);
+					column.addClass(priv.settings.staticClass);
+				}
+
+				column.data('initialLeft', column.offset().left);
+				column.css({
+					left: column.data('initialLeft')
+				});
+
+				if (wasFixed) {
+					column.removeClass(priv.settings.staticClass);
+					column.addClass(priv.settings.fixedClass);
+				}
 			});
 		};
 
@@ -211,7 +259,7 @@
 				priv.active = false;
 				priv.removeEventHandlers();
 				priv.shortColumns.animate({
-					top: 0
+					top: priv.columnTopOffset
 				}, 1000);
 			}
 		};
