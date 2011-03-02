@@ -22,6 +22,8 @@ We tried changing it to animate the **`scrollTop`** property instead (usually be
 
 So... have a crack and if you can resolve this little issue we'll be your friend forever.
 
+[Update] User mleibman gave us a tip which improved the performance and allowed us to enable this in Firefox and IE7+
+
 Would you like to know more?
 ----------------------------
 
