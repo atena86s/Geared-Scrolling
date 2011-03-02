@@ -22,7 +22,7 @@ We tried changing it to animate the **`scrollTop`** property instead (usually be
 
 So... have a crack and if you can resolve this little issue we'll be your friend forever.
 
-[Update] User mleibman gave us a tip which improved the performance and allowed us to enable this in Firefox and IE7+
+[Update] User mleibman gave us a tip which improved the performance and allowed us to enable this in Firefox and IE7+, unfortunately in the Down To The Wire implementation due to [https://bugzilla.mozilla.org/show_bug.cgi?id=90268](a bug involving Flash) we had to disable the plugin for Firefox users for that site. The plugin will work by default in all modern browsers.
 
 Would you like to know more?
 ----------------------------
